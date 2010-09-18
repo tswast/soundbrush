@@ -1,13 +1,14 @@
-Joyful = 0
-Happy = 1
-Sad = 2
-Dark = 3
-Chaotic = 4
 
-Moods = {0:Joyful, 1:Happy, 2:Sad, 3:Dark, 4:Chaotic}
+class Mood:
+	Joyful = 0
+	Happy = 1
+	Sad = 2
+	Dark = 3
+	Chaotic = 4
+	
 
 def findMood(pos):
-	return Moods[int(pos)]
+	return int(pos)
 
 class MusicStroke:
 	def __init__(self, pos, color):
