@@ -6,6 +6,7 @@ from lib.loader import Loader
 from lib.PaintBrush import PaintBrush
 
 import math
+#import stroke
 
 def length(tup):
 	return math.sqrt(tup[0]**2 + tup[1]**2)
@@ -15,23 +16,28 @@ class Canvas(object):
 	def __init__(self, width, height):
 		self.width = width
 		self.height = height
-		self.normalizer = length(width, height)
+		self.normalizer = length((width, height))
 
 	def normalize(self, val):
 		return float(val)*self.normalizer
-		
+
+class MusicStroke(object):
+	def stop(s): pass
+	def __init__(a,b,c): pass
+	def tick(a,b,c,d): pass
+
 class BrushStroke(object):
 	def __init__(self, color, pos, canvas):
 		self.color = color
-		self.music_stroke = MusicStroke()
-		self.last_pos = pos
 		self.canvas = canvas
+		self.music_stroke = MusicStroke(self.canvas, self.color)
+		self.last_pos = pos
 
-	def tick(self, pos):
-		delta = (abs(pos.x - self.last_pos.x), abs(pos.y - self.last_pos.y))
+	def move_to(self, pos):
+		delta = (abs(pos[0] - self.last_pos[0]), abs(pos[1] - self.last_pos[1]))
 		arclen = math.sqrt(delta[0]**2 + delta[1]**2)
 		normal_arclen = self.canvas.normalize(arclen)
-		self.music_stroke.tick(self.color, normal_arclen, self.canvas.normalize(pos.y))
+		self.music_stroke.tick(self.color, normal_arclen, self.canvas.normalize(pos[1]))
 		self.last_pos = pos
 
 	def end(self):
@@ -42,6 +48,7 @@ class Application(object):
 	def __init__(self):
 		self.screen = pygame.display.set_mode((800, 600),1)
 		pygame.display.set_caption("Music Painter")
+		pygame.init()
 		loader = Loader()
 		self.canvas = Canvas(800, 600)				
 		self.brush = PaintBrush(self.screen)
@@ -68,23 +75,16 @@ class Application(object):
 				elif event.type == MOUSEBUTTONDOWN:
 					if event.button == 1:
 						brush_stroke = BrushStroke(color, event.pos, self.canvas)
-						print event
 						self.brush.paint_from(event.pos)
-						brush_stroke.tick(event.pos)
 				elif event.type == MOUSEMOTION:
 					if event.buttons[0]:
 						self.brush.paint_to(event.pos) 
 						brush_stroke.move_to(event.pos)
-						print event
 				elif event.type == MOUSEBUTTONUP:
-					if event.buttons[0]:
-						music_stroke.stop()
-                                                          
+					brush_stroke.end()
 			if pygame.time.get_ticks() >= next_update:
-				next_update+=33                
+				next_update = next_update + 33                
 				pygame.display.flip() 
-				if brush_stroke:
-
 
 def main():
 	a = Application()
