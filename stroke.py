@@ -10,7 +10,7 @@ def findMood(pos):
 	return Moods[int(pos)]
 
 class MusicStroke:
-	def __init__(self, pos, color)
+	def __init__(self, pos, color):
 		mood = findMood(pos)
 		self.ref_y = pos.y
 		self.composer = Composer(color, mood)
