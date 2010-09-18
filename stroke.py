@@ -16,9 +16,9 @@ class MusicStroke:
 	"""Represents a 'stroke' in on our musical canvas.
 	This is created upon the start of the stroke, and tic() is
 	called every tic. This parses the data and passes it to the composer."""
-	def __init__(self, pos, color):
+	def __init__(self, y, color):
 		mood = findMood(pos)
-		self.ref_y = pos.y
+		self.ref_y = y
 		self.composer = Composer(color, mood)
 		self.arclen = 0
 		self.prev = 0
