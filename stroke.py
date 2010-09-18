@@ -1,5 +1,7 @@
 
 class Mood:
+	"""Represents music 'moods'. These map to portions of the canvas.
+	The composer class decides what these mean in terms of music."""
 	Joyful = 0
 	Happy = 1
 	Sad = 2
@@ -8,9 +10,12 @@ class Mood:
 	
 
 def findMood(pos):
-	return int(pos)
+	return int(pos * 5)
 
 class MusicStroke:
+	"""Represents a 'stroke' in on our musical canvas.
+	This is created upon the start of the stroke, and tic() is
+	called every tic. This parses the data and passes it to the composer."""
 	def __init__(self, pos, color):
 		mood = findMood(pos)
 		self.ref_y = pos.y
