@@ -18,13 +18,12 @@ class MusicStroke:
 		self.prev = 0
 	def tic(self, arclen, y):
 		self.arclen += arclen
-		offset = int(arclen / .05)
+		offset = int(arclen / .05) - self.prev
 
-		asc = False
 		if (y < self.ref_y):
-			asc = True
+			offset = -offset
 			
-		composer.tic(asc, offset - self.prev)
+		composer.tic(offset)
 		self.prev = offset
 
 	def stop(self):
